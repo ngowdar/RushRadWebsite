@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Calendar, Building2, Stethoscope, GraduationCap, Microscope, Users, MapPin, ArrowRight, Search, Phone, Menu, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -98,25 +98,49 @@ const FacultySpotlight = () => (
   </div>
 );
 
-// Simple video banner for hero
+// Simple video banner for hero with cycling between two videos
 const BRoll = ({ localSrc = "/broll.mp4", poster, sources = BROLL_SOURCES }: { localSrc?: string; poster?: string; sources?: Array<{ src: string; type: string }> }) => {
   const reduce = usePrefersReducedMotion();
+  const [currentVideo, setCurrentVideo] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  
+  // Local video sources to cycle between
+  const localVideos = ["/broll.mp4", "/broll2.mp4"];
+  
   const allSources = localSrc
-    ? [{ src: localSrc, type: "video/mp4" }, ...sources]
+    ? [{ src: localVideos[currentVideo], type: "video/mp4" }, ...sources]
     : sources;
+
+  // Handle video ended event to switch to next video
+  const handleVideoEnded = () => {
+    if (!reduce) {
+      setCurrentVideo((prev) => (prev + 1) % localVideos.length);
+    }
+  };
+
+  // Update video source when currentVideo changes
+  useEffect(() => {
+    if (videoRef.current && !reduce) {
+      videoRef.current.load(); // Reload video with new source
+      videoRef.current.play().catch(() => {
+        // Ignore autoplay errors
+      });
+    }
+  }, [currentVideo, reduce]);
 
   return (
     <div className="absolute inset-0 z-0">
       {/* Video - bottom layer */}
       <video
+        ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover z-1"
         poster={poster}
         autoPlay={!reduce}
         muted
-        loop={!reduce}
         playsInline
         preload="metadata"
         aria-label="Radiology b‑roll background"
+        onEnded={handleVideoEnded}
       >
         {allSources.map((s, i) => (
           <source key={i} src={s.src} type={s.type} />
@@ -203,8 +227,9 @@ export default function RushRadiologyMockHome() {
         <Section className="relative z-10 grid md:grid-cols-2 gap-8 pt-14 md:pt-24 pb-16">
           <div>
             <Pill>Modern • Accessible • Recruit‑ready</Pill>
-            <h1 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-slate-900">
-              Welcome to Rush Radiology
+            <h1 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight uppercase">
+              Welcome to <span style={{ color: BRAND.green, textShadow: '2px 2px 0 white, -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white' }}>RUSH</span>{" "}
+              <span style={{ color: BRAND.green }}>RADIOLOGY</span>.
             </h1>
             <p className="mt-4 max-w-xl text-slate-600">
               Let our team of expert radiologists and technicians help you in your health journey.
