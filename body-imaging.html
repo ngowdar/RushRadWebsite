@@ -17,6 +17,8 @@
     .btn-ghost { background: transparent; color: #334155; }
     .headshot { width: 6rem; height: 6rem; border-radius: 9999px; object-fit: cover; border: 2px solid #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
     .chip { display:inline-flex; align-items:center; gap:.25rem; border-radius:999px; background: rgba(0,99,50,0.10); color: #0f172a; padding: .25rem .6rem; font-size: .75rem; }
+    .faculty-card { transition: all 0.2s ease; }
+    .faculty-card.hidden { display: none; }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-900">
@@ -62,12 +64,21 @@
   </header>
 
   <section id="faculty" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-    <h2 class="text-xl font-semibold tracking-tight mb-4">Faculty</h2>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div class="flex items-end justify-between mb-6">
+      <h2 class="text-xl font-semibold tracking-tight">Faculty</h2>
+      <div class="flex items-center gap-2">
+        <svg class="h-4 w-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input id="facultySearch" type="text" class="h-9 w-64 rounded-md border border-slate-300 px-3 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Search faculty by name..." />
+      </div>
+    </div>
+    <div id="facultyGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
-      <div class="card p-5">
+      <div class="faculty-card card p-5" data-name="Leah Bennett" data-title="Section Chief, Body Imaging" data-focus="Abdominal MRI, oncologic imaging, and MR elastography">
         <div class="flex items-center gap-4">
-          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%239ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%239ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Leah Bennett, MD" class="headshot" />
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%239ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Leah Bennett, MD" class="headshot" />
           <div>
             <div class="font-semibold">Leah Bennett, MD</div>
             <div class="text-sm text-slate-500">Section Chief, Body Imaging</div>
@@ -76,13 +87,13 @@
         <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Abdominal MRI, oncologic imaging, and MR elastography.</p>
         <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-leah-bennett">View bio</button>
         <div id="bio-leah-bennett" class="hidden text-sm text-slate-700 mt-2">
-          Leah Bennett’s background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+          Leah Bennett's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
         </div>
       </div>
     
-      <div class="card p-5">
+      <div class="faculty-card card p-5" data-name="Rahul Desai" data-title="Associate Professor" data-focus="Liver imaging, HCC surveillance, and image-guided ablation">
         <div class="flex items-center gap-4">
-          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%239ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%239ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Rahul Desai, MD" class="headshot" />
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Rahul Desai, MD" class="headshot" />
           <div>
             <div class="font-semibold">Rahul Desai, MD</div>
             <div class="text-sm text-slate-500">Associate Professor</div>
@@ -91,13 +102,13 @@
         <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Liver imaging, HCC surveillance, and image-guided ablation.</p>
         <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-rahul-desai">View bio</button>
         <div id="bio-rahul-desai" class="hidden text-sm text-slate-700 mt-2">
-          Rahul Desai’s background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+          Rahul Desai's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
         </div>
       </div>
     
-      <div class="card p-5">
+      <div class="faculty-card card p-5" data-name="Emily Nguyen" data-title="Assistant Professor" data-focus="MR enterography, pelvic floor imaging, and resident education">
         <div class="flex items-center gap-4">
-          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%239ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%239ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Emily Nguyen, MD" class="headshot" />
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Emily Nguyen, MD" class="headshot" />
           <div>
             <div class="font-semibold">Emily Nguyen, MD</div>
             <div class="text-sm text-slate-500">Assistant Professor</div>
@@ -106,13 +117,13 @@
         <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> MR enterography, pelvic floor imaging, and resident education.</p>
         <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-emily-nguyen">View bio</button>
         <div id="bio-emily-nguyen" class="hidden text-sm text-slate-700 mt-2">
-          Emily Nguyen’s background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+          Emily Nguyen's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
         </div>
       </div>
     
-      <div class="card p-5">
+      <div class="faculty-card card p-5" data-name="Marcus Reed" data-title="Assistant Professor" data-focus="Pancreatic imaging, perfusion CT, and quality improvement">
         <div class="flex items-center gap-4">
-          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%239ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%239ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Marcus Reed, MD" class="headshot" />
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Marcus Reed, MD" class="headshot" />
           <div>
             <div class="font-semibold">Marcus Reed, MD</div>
             <div class="text-sm text-slate-500">Assistant Professor</div>
@@ -121,13 +132,13 @@
         <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Pancreatic imaging, perfusion CT, and quality improvement.</p>
         <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-marcus-reed">View bio</button>
         <div id="bio-marcus-reed" class="hidden text-sm text-slate-700 mt-2">
-          Marcus Reed’s background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+          Marcus Reed's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
         </div>
       </div>
     
-      <div class="card p-5">
+      <div class="faculty-card card p-5" data-name="Nadia Ali" data-title="Clinical Instructor" data-focus="Transplant imaging, vascular mapping, and ultrasound">
         <div class="flex items-center gap-4">
-          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%239ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%239ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Nadia Ali, MD" class="headshot" />
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Nadia Ali, MD" class="headshot" />
           <div>
             <div class="font-semibold">Nadia Ali, MD</div>
             <div class="text-sm text-slate-500">Clinical Instructor</div>
@@ -136,13 +147,13 @@
         <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Transplant imaging, vascular mapping, and ultrasound.</p>
         <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-nadia-ali">View bio</button>
         <div id="bio-nadia-ali" class="hidden text-sm text-slate-700 mt-2">
-          Nadia Ali’s background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+          Nadia Ali's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
         </div>
       </div>
     
-      <div class="card p-5">
+      <div class="faculty-card card p-5" data-name="Owen Wright" data-title="Assistant Professor" data-focus="Gyn-onc imaging, advanced prostate MRI, and trials">
         <div class="flex items-center gap-4">
-          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%239ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%239ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Owen Wright, MD" class="headshot" />
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Owen Wright, MD" class="headshot" />
           <div>
             <div class="font-semibold">Owen Wright, MD</div>
             <div class="text-sm text-slate-500">Assistant Professor</div>
@@ -151,28 +162,28 @@
         <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Gyn-onc imaging, advanced prostate MRI, and trials.</p>
         <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-owen-wright">View bio</button>
         <div id="bio-owen-wright" class="hidden text-sm text-slate-700 mt-2">
-          Owen Wright’s background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+          Owen Wright's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
         </div>
       </div>
     
-      <div class="card p-5">
+      <div class="faculty-card card p-5" data-name="Sahana Iyer" data-title="Associate Professor" data-focus="Bowel imaging, Crohn's disease, and mentorship">
         <div class="flex items-center gap-4">
-          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%239ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%239ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Sahana Iyer, MD" class="headshot" />
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Sahana Iyer, MD" class="headshot" />
           <div>
             <div class="font-semibold">Sahana Iyer, MD</div>
             <div class="text-sm text-slate-500">Associate Professor</div>
           </div>
         </div>
-        <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Bowel imaging, Crohn’s disease, and mentorship.</p>
+        <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Bowel imaging, Crohn's disease, and mentorship.</p>
         <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-sahana-iyer">View bio</button>
         <div id="bio-sahana-iyer" class="hidden text-sm text-slate-700 mt-2">
-          Sahana Iyer’s background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+          Sahana Iyer's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
         </div>
       </div>
     
-      <div class="card p-5">
+      <div class="faculty-card card p-5" data-name="Jamal Carter" data-title="Assistant Professor" data-focus="Emergency body imaging, CT optimization, and education">
         <div class="flex items-center gap-4">
-          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%239ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%239ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Jamal Carter, MD" class="headshot" />
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Jamal Carter, MD" class="headshot" />
           <div>
             <div class="font-semibold">Jamal Carter, MD</div>
             <div class="text-sm text-slate-500">Assistant Professor</div>
@@ -181,7 +192,113 @@
         <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Emergency body imaging, CT optimization, and education.</p>
         <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-jamal-carter">View bio</button>
         <div id="bio-jamal-carter" class="hidden text-sm text-slate-700 mt-2">
-          Jamal Carter’s background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+          Jamal Carter's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+        </div>
+      </div>
+
+      <!-- Additional Faculty Members -->
+      <div class="faculty-card card p-5" data-name="Victoria Chen" data-title="Professor" data-focus="Hepatobiliary imaging, interventional radiology, and AI research">
+        <div class="flex items-center gap-4">
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Victoria Chen, MD" class="headshot" />
+          <div>
+            <div class="font-semibold">Victoria Chen, MD</div>
+            <div class="text-sm text-slate-500">Professor</div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Hepatobiliary imaging, interventional radiology, and AI research.</p>
+        <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-victoria-chen">View bio</button>
+        <div id="bio-victoria-chen" class="hidden text-sm text-slate-700 mt-2">
+          Victoria Chen's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+        </div>
+      </div>
+
+      <div class="faculty-card card p-5" data-name="Michael Thompson" data-title="Associate Professor" data-focus="Genitourinary imaging, prostate MRI, and clinical trials">
+        <div class="flex items-center gap-4">
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Michael Thompson, MD" class="headshot" />
+          <div>
+            <div class="font-semibold">Michael Thompson, MD</div>
+            <div class="text-sm text-slate-500">Associate Professor</div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Genitourinary imaging, prostate MRI, and clinical trials.</p>
+        <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-michael-thompson">View bio</button>
+        <div id="bio-michael-thompson" class="hidden text-sm text-slate-700 mt-2">
+          Michael Thompson's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+        </div>
+      </div>
+
+      <div class="faculty-card card p-5" data-name="Sarah Williams" data-title="Assistant Professor" data-focus="Women's imaging, pelvic MRI, and teaching">
+        <div class="flex items-center gap-4">
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Sarah Williams, MD" class="headshot" />
+          <div>
+            <div class="font-semibold">Sarah Williams, MD</div>
+            <div class="text-sm text-slate-500">Assistant Professor</div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Women's imaging, pelvic MRI, and teaching.</p>
+        <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-sarah-williams">View bio</button>
+        <div id="bio-sarah-williams" class="hidden text-sm text-slate-700 mt-2">
+          Sarah Williams's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+        </div>
+      </div>
+
+      <div class="faculty-card card p-5" data-name="David Rodriguez" data-title="Clinical Instructor" data-focus="Chest imaging, thoracic oncology, and innovation">
+        <div class="flex items-center gap-4">
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of David Rodriguez, MD" class="headshot" />
+          <div>
+            <div class="font-semibold">David Rodriguez, MD</div>
+            <div class="text-sm text-slate-500">Clinical Instructor</div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Chest imaging, thoracic oncology, and innovation.</p>
+        <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-david-rodriguez">View bio</button>
+        <div id="bio-david-rodriguez" class="hidden text-sm text-slate-700 mt-2">
+          David Rodriguez's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+        </div>
+      </div>
+
+      <div class="faculty-card card p-5" data-name="Jennifer Park" data-title="Associate Professor" data-focus="Pediatric body imaging, congenital anomalies, and family care">
+        <div class="flex items-center gap-4">
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Jennifer Park, MD" class="headshot" />
+          <div>
+            <div class="font-semibold">Jennifer Park, MD</div>
+            <div class="text-sm text-slate-500">Associate Professor</div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Pediatric body imaging, congenital anomalies, and family care.</p>
+        <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-jennifer-park">View bio</button>
+        <div id="bio-jennifer-park" class="hidden text-sm text-slate-700 mt-2">
+          Jennifer Park's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+        </div>
+      </div>
+
+      <div class="faculty-card card p-5" data-name="Robert Kim" data-title="Assistant Professor" data-focus="Musculoskeletal imaging, sports medicine, and biomechanics">
+        <div class="flex items-center gap-4">
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Robert Kim, MD" class="headshot" />
+          <div>
+            <div class="font-semibold">Robert Kim, MD</div>
+            <div class="text-sm text-slate-500">Assistant Professor</div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Musculoskeletal imaging, sports medicine, and biomechanics.</p>
+        <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-robert-kim">View bio</button>
+        <div id="bio-robert-kim" class="hidden text-sm text-slate-700 mt-2">
+          Robert Kim's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
+        </div>
+      </div>
+
+      <div class="faculty-card card p-5" data-name="Lisa Anderson" data-title="Professor" data-focus="Oncologic imaging, tumor response assessment, and molecular imaging">
+        <div class="flex items-center gap-4">
+          <img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%0A%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23e5e7eb%27/%3E%0A%3Ccircle%20cx%3D%27100%27%20cy%3D%2772%27%20r%3D%2740%27%20fill%3D%27%139ca3af%27/%3E%0A%3Crect%20x%3D%2740%27%20y%3D%27120%27%20width%3D%27120%27%20height%3D%2760%27%20rx%3D%2730%27%20fill%3D%27%139ca3af%27/%3E%0A%3C/svg%3E" alt="Headshot of Lisa Anderson, MD" class="headshot" />
+          <div>
+            <div class="font-semibold">Lisa Anderson, MD</div>
+            <div class="text-sm text-slate-500">Professor</div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-600 mt-3"><span class="text-slate-500">Clinical focus:</span> Oncologic imaging, tumor response assessment, and molecular imaging.</p>
+        <button class="btn btn-ghost px-0 mt-2" data-toggle="bio-lisa-anderson">View bio</button>
+        <div id="bio-lisa-anderson" class="hidden text-sm text-slate-700 mt-2">
+          Lisa Anderson's background includes advanced fellowship training and active multidisciplinary conferences. Recent work centers on protocol optimization and patient-centered reporting.
         </div>
       </div>
     
@@ -209,9 +326,73 @@
   </section>
 
   <script>
-  document.addEventListener('click', (e) => { const t = e.target.closest('[data-toggle]'); if (!t) return;
-    const id = t.getAttribute('data-toggle'); const el = document.getElementById(id); if (!el) return;
-    el.classList.toggle('hidden'); t.textContent = el.classList.contains('hidden') ? 'View bio' : 'Hide bio'; });
+  // Bio toggle functionality
+  document.addEventListener('click', (e) => { 
+    const t = e.target.closest('[data-toggle]'); 
+    if (!t) return;
+    const id = t.getAttribute('data-toggle'); 
+    const el = document.getElementById(id); 
+    if (!el) return;
+    el.classList.toggle('hidden'); 
+    t.textContent = el.classList.contains('hidden') ? 'View bio' : 'Hide bio'; 
+  });
+
+  // Faculty search functionality
+  const searchInput = document.getElementById('facultySearch');
+  const facultyCards = document.querySelectorAll('.faculty-card');
+
+  function searchFaculty() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    
+    // Array to store matches with relevance scores
+    const matches = Array.from(facultyCards).map(card => {
+      const name = card.getAttribute('data-name').toLowerCase();
+      const title = card.getAttribute('data-title').toLowerCase();
+      const focus = card.getAttribute('data-focus').toLowerCase();
+      
+      let score = 0;
+      let matched = false;
+
+      if (searchTerm === '') {
+        return { card, score: 1, matched: true }; // Show all when search is empty
+      }
+
+      // Calculate relevance score
+      if (name.includes(searchTerm)) {
+        score += name.startsWith(searchTerm) ? 100 : 50; // Higher score for name matches
+        matched = true;
+      }
+      if (title.includes(searchTerm)) {
+        score += 20;
+        matched = true;
+      }
+      if (focus.includes(searchTerm)) {
+        score += 10;
+        matched = true;
+      }
+
+      return { card, score, matched };
+    }).filter(item => item.matched);
+
+    // Sort by relevance score (highest first)
+    matches.sort((a, b) => b.score - a.score);
+
+    // Hide all cards first
+    facultyCards.forEach(card => card.style.display = 'none');
+
+    // Show and reorder matched cards
+    const container = document.getElementById('facultyGrid');
+    matches.forEach(({ card }) => {
+      card.style.display = 'block';
+      container.appendChild(card); // This moves the card to the end, creating the desired order
+    });
+  }
+
+  // Add event listener for real-time search
+  searchInput.addEventListener('input', searchFaculty);
+
+  // Initialize search (show all initially)
+  searchFaculty();
   </script>
 
   <footer class="border-t bg-white/70 backdrop-blur mt-12">
