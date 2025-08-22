@@ -103,77 +103,221 @@
   </section>
 
   <script>
-  // Initialize Faculty Display with better error handling
-  document.addEventListener('DOMContentLoaded', async function() {
-    console.log('DOM loaded, initializing faculty display...');
-    
-    // Function to load scripts dynamically
-    function loadScript(src) {
-      return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.onload = () => {
-          console.log(`Successfully loaded: ${src}`);
-          resolve();
-        };
-        script.onerror = () => {
-          console.error(`Failed to load: ${src}`);
-          reject(new Error(`Failed to load script: ${src}`));
-        };
-        document.head.appendChild(script);
-      });
+  // Embedded faculty data (fallback approach)
+  const facultyData = {
+    "divisions": {
+      "body-imaging": {
+        "faculty": [
+          {
+            "id": "leah-bennett",
+            "name": "Leah Bennett",
+            "degree": "MD",
+            "title": "Section Chief, Body Imaging",
+            "academic_rank": "Professor",
+            "email": "lbennett@rush.edu",
+            "phone": "(312) 942-5741",
+            "clinical_focus": ["Abdominal MRI", "oncologic imaging", "MR elastography"],
+            "headshot": "leah-bennett.jpg",
+            "order": 1,
+            "status": "active"
+          },
+          {
+            "id": "rahul-desai",
+            "name": "Rahul Desai",
+            "degree": "MD",
+            "title": "Associate Professor",
+            "academic_rank": "Associate Professor",
+            "email": "rdesai@rush.edu",
+            "phone": "(312) 942-5742",
+            "clinical_focus": ["Liver imaging", "HCC surveillance", "image-guided ablation"],
+            "headshot": "rahul-desai.jpg",
+            "order": 2,
+            "status": "active"
+          },
+          {
+            "id": "emily-nguyen",
+            "name": "Emily Nguyen",
+            "degree": "MD",
+            "title": "Assistant Professor",
+            "academic_rank": "Assistant Professor",
+            "email": "anguyen@rush.edu",
+            "phone": "(312) 942-5743",
+            "clinical_focus": ["MR enterography", "pelvic floor imaging", "resident education"],
+            "headshot": "emily-nguyen.jpg",
+            "order": 3,
+            "status": "active"
+          },
+          {
+            "id": "marcus-reed",
+            "name": "Marcus Reed",
+            "degree": "MD", 
+            "title": "Assistant Professor",
+            "academic_rank": "Assistant Professor",
+            "email": "mreed@rush.edu",
+            "phone": "(312) 942-5744",
+            "clinical_focus": ["Pancreatic imaging", "perfusion CT", "quality improvement"],
+            "headshot": "marcus-reed.jpg",
+            "order": 4,
+            "status": "active"
+          },
+          {
+            "id": "nadia-ali",
+            "name": "Nadia Ali",
+            "degree": "MD",
+            "title": "Clinical Instructor", 
+            "academic_rank": "Clinical Instructor",
+            "email": "nali@rush.edu",
+            "phone": "(312) 942-5745",
+            "clinical_focus": ["Transplant imaging", "vascular mapping", "ultrasound"],
+            "headshot": "nadia-ali.jpg",
+            "order": 5,
+            "status": "active"
+          },
+          {
+            "id": "owen-wright",
+            "name": "Owen Wright",
+            "degree": "MD",
+            "title": "Assistant Professor",
+            "academic_rank": "Assistant Professor", 
+            "email": "owright@rush.edu",
+            "phone": "(312) 942-5746",
+            "clinical_focus": ["Gyn-onc imaging", "advanced prostate MRI", "trials"],
+            "headshot": "owen-wright.jpg",
+            "order": 6,
+            "status": "active"
+          }
+        ]
+      }
     }
+  };
+
+  function renderFacultyCard(faculty) {
+    const clinicalFocus = faculty.clinical_focus ? faculty.clinical_focus.join(', ') : '';
+    
+    return `
+      <div class="faculty-card card p-5" data-person-id="${faculty.id}" data-name="${faculty.name}" data-title="${faculty.title}">
+        <div class="flex items-center gap-4">
+          <img src="./images/people/faculty/${faculty.headshot}" 
+               alt="Headshot of ${faculty.name}, ${faculty.degree}" 
+               class="headshot" 
+               onerror="this.src='./images/people/placeholder.svg'" />
+          <div>
+            <div class="font-semibold">${faculty.name}, ${faculty.degree}</div>
+            <div class="text-sm text-slate-500">${faculty.title}</div>
+          </div>
+        </div>
+        
+        <div class="mt-3 space-y-2">
+          ${clinicalFocus ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Clinical focus:</span> ${clinicalFocus}
+            </p>
+          ` : ''}
+          
+          ${faculty.phone ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Phone:</span> 
+              <a href="tel:${faculty.phone}" class="hover:underline">${faculty.phone}</a>
+            </p>
+          ` : ''}
+          
+          ${faculty.email ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Email:</span> 
+              <a href="mailto:${faculty.email}" class="hover:underline text-[color:var(--rush-green)]">${faculty.email}</a>
+            </p>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderFacultyGrid(faculty) {
+    const container = document.getElementById('facultyGrid');
+    if (!container) {
+      console.error('Faculty grid container not found');
+      return;
+    }
+
+    // Sort faculty by order
+    const sortedFaculty = [...faculty].sort((a, b) => (a.order || 0) - (b.order || 0));
+
+    // Generate HTML for all faculty cards
+    const facultyHTML = sortedFaculty
+      .filter(f => f.status === 'active')
+      .map(f => renderFacultyCard(f))
+      .join('');
+
+    // Insert into container
+    container.innerHTML = facultyHTML;
+  }
+
+  function setupSearch(faculty) {
+    const searchInput = document.getElementById('facultySearch');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase().trim();
+      const container = document.getElementById('facultyGrid');
+      const cards = container.querySelectorAll('[data-person-id]');
+
+      if (searchTerm === '') {
+        // Show all cards
+        cards.forEach(card => card.style.display = 'block');
+        return;
+      }
+
+      // Filter and reorder cards
+      const matches = faculty.filter(person => {
+        const name = person.name.toLowerCase();
+        const title = (person.title || '').toLowerCase();
+        const focus = person.clinical_focus ? person.clinical_focus.join(' ').toLowerCase() : '';
+        
+        return name.includes(searchTerm) || title.includes(searchTerm) || focus.includes(searchTerm);
+      });
+
+      // Hide all cards first
+      cards.forEach(card => card.style.display = 'none');
+
+      // Show matched cards
+      matches.forEach(person => {
+        const card = container.querySelector(`[data-person-id="${person.id}"]`);
+        if (card) {
+          card.style.display = 'block';
+        }
+      });
+    });
+  }
+
+  // Initialize faculty display
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing fallback faculty display...');
     
     try {
-      // Load scripts in sequence
-      console.log('Loading people-manager.js...');
-      await loadScript('./js/people-manager.js');
+      const faculty = facultyData.divisions['body-imaging'].faculty;
+      console.log(`Loading ${faculty.length} faculty members`);
       
-      console.log('Loading faculty-loader.js...');
-      await loadScript('./js/faculty-loader.js');
+      // Render faculty grid
+      renderFacultyGrid(faculty);
       
-      // Check if classes are available
-      if (typeof PeopleManager === 'undefined') {
-        throw new Error('PeopleManager class not found after loading script');
-      }
-      
-      if (typeof FacultyManager === 'undefined') {
-        throw new Error('FacultyManager class not found after loading script');
-      }
-      
-      console.log('Classes loaded successfully, creating FacultyManager instance...');
-      const facultyManager = new FacultyManager();
-      
-      console.log('Initializing faculty display for body-imaging division...');
-      // Initialize faculty display for body imaging division
-      await facultyManager.initializeFacultyDisplay('body-imaging', 'facultyGrid', 'facultySearch');
-      
-      console.log('Faculty display initialized successfully');
+      // Setup search functionality
+      setupSearch(faculty);
       
       // Hide loading indicator
       const loadingElement = document.getElementById('facultyLoading');
       if (loadingElement) {
         loadingElement.style.display = 'none';
-        console.log('Loading indicator hidden');
       }
+      
+      console.log('Faculty display initialized successfully (fallback mode)');
       
     } catch (error) {
-      console.error('Error during faculty initialization:', error);
-      
-      // Show detailed error message
-      const container = document.getElementById('facultyGrid');
-      if (container) {
-        container.innerHTML = `
-          <div class="col-span-full text-center py-8">
-            <div class="text-red-500">Error loading faculty data</div>
-            <div class="text-sm text-slate-600 mt-2">${error.message}</div>
-            <div class="text-xs text-slate-500 mt-1">Check browser console for details</div>
-            <button onclick="location.reload()" class="mt-3 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-              Retry
-            </button>
-          </div>
-        `;
-      }
+      console.error('Error initializing faculty display:', error);
+      document.getElementById('facultyGrid').innerHTML = `
+        <div class="col-span-full text-center py-8">
+          <div class="text-red-500">Error loading faculty data: ${error.message}</div>
+        </div>
+      `;
     }
   });
   </script>

@@ -1,0 +1,264 @@
+{
+  "last_updated": "2024-12-22",
+  "fellowship_programs": {
+    "body-imaging": {
+      "name": "Body Imaging Fellowship",
+      "director": "Dr. Leah Bennett",
+      "duration": "1 year",
+      "positions": 2
+    },
+    "neuroradiology": {
+      "name": "Neuroradiology Fellowship", 
+      "director": "Dr. Patricia Williams",
+      "duration": "1 year",
+      "positions": 2
+    },
+    "musculoskeletal": {
+      "name": "Musculoskeletal Imaging Fellowship",
+      "director": "Dr. Robert Kim",
+      "duration": "1 year", 
+      "positions": 1
+    },
+    "breast-imaging": {
+      "name": "Breast Imaging Fellowship",
+      "director": "Dr. Amanda Foster",
+      "duration": "1 year",
+      "positions": 1
+    },
+    "interventional": {
+      "name": "Interventional Radiology Fellowship",
+      "director": "Dr. Carlos Martinez",
+      "duration": "1 year",
+      "positions": 2
+    }
+  },
+  "fellows": [
+    {
+      "id": "alex-thompson-body",
+      "name": "Alex Thompson",
+      "degree": "MD",
+      "fellowship_type": "body-imaging",
+      "fellowship_year": 1,
+      "academic_year": "2024-2025",
+      "email": "athompson@rush.edu",
+      "phone": "(312) 942-7001",
+      "headshot": "alex-thompson-body.jpg",
+      "residency": "University of Michigan",
+      "medical_school": "Wayne State University School of Medicine",
+      "undergrad": "University of Michigan",
+      "hometown": "Detroit, MI",
+      "research_focus": ["Liver imaging", "perfusion studies", "hepatobiliary MRI"],
+      "current_rotation": "Abdominal MRI",
+      "bio": "Dr. Thompson completed residency at University of Michigan with distinction and is pursuing advanced training in hepatobiliary imaging with plans for academic career.",
+      "career_goals": "Academic radiology with focus on hepatobiliary imaging and liver transplant evaluation",
+      "publications": [
+        {"title": "Advanced liver MRI techniques", "journal": "Radiology", "year": 2024},
+        {"title": "Perfusion imaging in liver transplant evaluation", "journal": "Academic Radiology", "year": 2023}
+      ],
+      "presentations": [
+        {"title": "Novel MRI techniques for liver fibrosis", "conference": "RSNA 2024", "type": "oral"}
+      ],
+      "awards": ["Outstanding Fellow Award 2024"],
+      "order": 1,
+      "status": "active"
+    },
+    {
+      "id": "priya-sharma-body",
+      "name": "Priya Sharma",
+      "degree": "MD",
+      "fellowship_type": "body-imaging",
+      "fellowship_year": 1,
+      "academic_year": "2024-2025",
+      "email": "psharma@rush.edu",
+      "phone": "(312) 942-7002",
+      "headshot": "priya-sharma-body.jpg",
+      "residency": "Mayo Clinic",
+      "medical_school": "University of Illinois College of Medicine",
+      "undergrad": "Northwestern University",
+      "hometown": "Chicago, IL",
+      "research_focus": ["Pancreatic imaging", "MRCP", "biliary interventions"],
+      "current_rotation": "Pancreaticobiliary Imaging",
+      "bio": "Dr. Sharma brings expertise in pancreatic imaging from her residency at Mayo Clinic and is interested in advanced MRCP techniques.",
+      "career_goals": "Subspecialty practice focusing on pancreaticobiliary imaging and intervention",
+      "publications": [
+        {"title": "MRCP in pancreatic ductal adenocarcinoma", "journal": "Abdominal Radiology", "year": 2024}
+      ],
+      "presentations": [
+        {"title": "Advanced MRCP techniques", "conference": "ASAR 2024", "type": "poster"}
+      ],
+      "awards": [],
+      "order": 2,
+      "status": "active"
+    },
+    {
+      "id": "jason-lee-neuro",
+      "name": "Jason Lee",
+      "degree": "MD",
+      "fellowship_type": "neuroradiology",
+      "fellowship_year": 1,
+      "academic_year": "2024-2025",
+      "email": "jlee@rush.edu",
+      "phone": "(312) 942-7003",
+      "headshot": "jason-lee-neuro.jpg",
+      "residency": "Johns Hopkins Hospital",
+      "medical_school": "Harvard Medical School",
+      "undergrad": "Massachusetts Institute of Technology",
+      "hometown": "Cambridge, MA",
+      "research_focus": ["Stroke imaging", "perfusion MRI", "AI in neuroradiology"],
+      "current_rotation": "Stroke Imaging",
+      "bio": "Dr. Lee completed an outstanding residency at Johns Hopkins and is passionate about acute stroke imaging and AI applications in neuroradiology.",
+      "career_goals": "Academic neuroradiology with focus on stroke imaging and machine learning research",
+      "publications": [
+        {"title": "AI in acute stroke detection", "journal": "Stroke", "year": 2024},
+        {"title": "Perfusion imaging optimization", "journal": "AJNR", "year": 2023}
+      ],
+      "presentations": [
+        {"title": "Machine learning in stroke triage", "conference": "ASNR 2024", "type": "oral"}
+      ],
+      "awards": ["Research Excellence Award 2024"],
+      "order": 3,
+      "status": "active"
+    },
+    {
+      "id": "rachel-martinez-neuro",
+      "name": "Rachel Martinez",
+      "degree": "MD",
+      "fellowship_type": "neuroradiology",
+      "fellowship_year": 1,
+      "academic_year": "2024-2025",
+      "email": "rmartinez@rush.edu",
+      "phone": "(312) 942-7004",
+      "headshot": "rachel-martinez-neuro.jpg",
+      "residency": "UCLA Medical Center",
+      "medical_school": "University of California, San Diego School of Medicine",
+      "undergrad": "University of California, San Diego",
+      "hometown": "San Diego, CA",
+      "research_focus": ["Pediatric neuroradiology", "fetal brain imaging", "congenital anomalies"],
+      "current_rotation": "Pediatric Neuroradiology",
+      "bio": "Dr. Martinez combines her interests in pediatrics and neuroradiology to specialize in pediatric brain imaging and fetal diagnostics.",
+      "career_goals": "Pediatric neuroradiology with focus on fetal and neonatal brain imaging",
+      "publications": [
+        {"title": "Fetal brain MRI: current protocols", "journal": "Pediatric Radiology", "year": 2024}
+      ],
+      "presentations": [
+        {"title": "Advances in fetal neuroradiology", "conference": "SPR 2024", "type": "poster"}
+      ],
+      "awards": [],
+      "order": 4,
+      "status": "active"
+    },
+    {
+      "id": "kevin-park-msk",
+      "name": "Kevin Park",
+      "degree": "MD",
+      "fellowship_type": "musculoskeletal",
+      "fellowship_year": 1,
+      "academic_year": "2024-2025",
+      "email": "kpark@rush.edu",
+      "phone": "(312) 942-7005",
+      "headshot": "kevin-park-msk.jpg",
+      "residency": "Hospital for Special Surgery",
+      "medical_school": "Columbia University Vagelos College of Physicians and Surgeons",
+      "undergrad": "Columbia University",
+      "hometown": "New York, NY",
+      "research_focus": ["Sports medicine imaging", "shoulder MRI", "arthroscopy correlation"],
+      "current_rotation": "Sports Medicine Imaging",
+      "bio": "Dr. Park trained at HSS and brings extensive experience in musculoskeletal imaging with particular expertise in sports-related injuries.",
+      "career_goals": "Sports medicine imaging practice with academic affiliation",
+      "publications": [
+        {"title": "Advanced shoulder MRI techniques", "journal": "Skeletal Radiology", "year": 2024},
+        {"title": "MRI-arthroscopy correlation in shoulder instability", "journal": "AJR", "year": 2023}
+      ],
+      "presentations": [
+        {"title": "Innovative shoulder imaging protocols", "conference": "SMIS 2024", "type": "oral"}
+      ],
+      "awards": ["Best Clinical Fellow 2024"],
+      "order": 5,
+      "status": "active"
+    },
+    {
+      "id": "amanda-foster-breast",
+      "name": "Amanda Foster",
+      "degree": "MD",
+      "fellowship_type": "breast-imaging",
+      "fellowship_year": 1,
+      "academic_year": "2024-2025",
+      "email": "afoster@rush.edu",
+      "phone": "(312) 942-7006",
+      "headshot": "amanda-foster-breast.jpg",
+      "residency": "University of Pennsylvania",
+      "medical_school": "Perelman School of Medicine at University of Pennsylvania",
+      "undergrad": "University of Pennsylvania",
+      "hometown": "Philadelphia, PA",
+      "research_focus": ["Breast MRI", "tomosynthesis", "high-risk screening"],
+      "current_rotation": "Breast MRI",
+      "bio": "Dr. Foster is dedicated to advancing breast imaging techniques and improving screening protocols for high-risk populations.",
+      "career_goals": "Breast imaging specialist with focus on high-risk screening and advanced MRI techniques",
+      "publications": [
+        {"title": "Breast MRI in BRCA carriers", "journal": "Radiology", "year": 2024}
+      ],
+      "presentations": [
+        {"title": "High-risk breast screening protocols", "conference": "ARRS 2024", "type": "poster"}
+      ],
+      "awards": [],
+      "order": 6,
+      "status": "active"
+    },
+    {
+      "id": "carlos-rodriguez-ir",
+      "name": "Carlos Rodriguez",
+      "degree": "MD",
+      "fellowship_type": "interventional",
+      "fellowship_year": 1,
+      "academic_year": "2024-2025",
+      "email": "crodriguez@rush.edu",
+      "phone": "(312) 942-7007",
+      "headshot": "carlos-rodriguez-ir.jpg",
+      "residency": "Massachusetts General Hospital",
+      "medical_school": "University of Texas Southwestern Medical School",
+      "undergrad": "University of Texas at Austin",
+      "hometown": "Austin, TX",
+      "research_focus": ["Vascular interventions", "oncologic interventions", "embolization techniques"],
+      "current_rotation": "Vascular Interventions",
+      "bio": "Dr. Rodriguez combines his diagnostic radiology training with advanced interventional techniques to provide minimally invasive treatments.",
+      "career_goals": "Interventional radiology practice with focus on oncologic interventions and complex vascular procedures",
+      "publications": [
+        {"title": "Novel embolization techniques in liver cancer", "journal": "Journal of Vascular and Interventional Radiology", "year": 2024}
+      ],
+      "presentations": [
+        {"title": "Advanced hepatic interventions", "conference": "SIR 2024", "type": "oral"}
+      ],
+      "awards": ["Outstanding Procedural Skills Award 2024"],
+      "order": 7,
+      "status": "active"
+    },
+    {
+      "id": "stephanie-wong-ir",
+      "name": "Stephanie Wong",
+      "degree": "MD",
+      "fellowship_type": "interventional",
+      "fellowship_year": 1,
+      "academic_year": "2024-2025",
+      "email": "swong@rush.edu",
+      "phone": "(312) 942-7008",
+      "headshot": "stephanie-wong-ir.jpg",
+      "residency": "Stanford University Medical Center",
+      "medical_school": "Stanford University School of Medicine",
+      "undergrad": "Stanford University",
+      "hometown": "Palo Alto, CA",
+      "research_focus": ["Women's health interventions", "uterine fibroid embolization", "venous interventions"],
+      "current_rotation": "Women's Health Interventions",
+      "bio": "Dr. Wong is passionate about interventional procedures that specifically benefit women's health and quality of life.",
+      "career_goals": "Interventional radiology with subspecialty focus on women's health and venous interventions",
+      "publications": [
+        {"title": "UFE outcomes in young women", "journal": "Cardiovascular and Interventional Radiology", "year": 2024}
+      ],
+      "presentations": [
+        {"title": "Women's health IR: current trends", "conference": "SIR 2024", "type": "poster"}
+      ],
+      "awards": [],
+      "order": 8,
+      "status": "active"
+    }
+  ]
+}
