@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test All Pages</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .links { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
+        .links a { padding: 8px 16px; background: #006332; color: white; text-decoration: none; border-radius: 4px; }
+        .links a:hover { background: #004d26; }
+    </style>
+</head>
+<body>
+    <h1>Test All Pages</h1>
+    
+    <div class="test-section">
+        <h2>Main Pages</h2>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="body-imaging.html">Body Imaging (Original)</a>
+            <a href="body-imaging-fallback.html">Body Imaging (Fallback)</a>
+            <a href="residency.html">Residency</a>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>New Pages Created</h2>
+        <div class="links">
+            <a href="faculty.html">Faculty (All Divisions)</a>
+            <a href="residents.html">Residents</a>
+            <a href="fellows.html">Fellows</a>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Page Features to Test</h2>
+        <ul>
+            <li><strong>Faculty Page:</strong> Shows faculty from all divisions, search by name/specialty/division</li>
+            <li><strong>Residents Page:</strong> Shows residents by PGY level, search by name/rotation/fellowship interest</li>
+            <li><strong>Fellows Page:</strong> Shows fellows by program, search by name/fellowship/research focus</li>
+            <li><strong>All Pages:</strong> Embedded data (no JSON file dependencies), responsive design, consistent navigation</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>Expected Functionality</h2>
+        <ul>
+            <li>✅ Cards should load immediately (embedded data)</li>
+            <li>✅ Search functionality should work in real-time</li>
+            <li>✅ Navigation links should work between pages</li>
+            <li>✅ Responsive design on mobile/tablet/desktop</li>
+            <li>✅ Consistent Rush branding and styling</li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Residents — Rush Radiology</title>
+  <meta name="description" content="Meet our diagnostic radiology residents at Rush University Medical Center" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --rush-green: #006332; }
+    .rail { position: fixed; top: 0; bottom: 0; width: clamp(24px, 7vw, 120px); background: var(--rush-green); z-index: 10; pointer-events: none; }
+    @media (max-width: 1023px) { .rail { display: none; } }
+    .card { border-radius: 1rem; background: #fff; border: 1px solid rgba(15,23,42,0.08); box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .btn { border-radius: 1rem; padding: 0.6rem 1rem; font-size: 0.875rem; display: inline-flex; align-items: center; gap: .5rem; }
+    .btn-primary { background: var(--rush-green); color: #fff; }
+    .btn-outline { border: 1px solid #cbd5e1; background: #fff; color: #0f172a; }
+    .btn-ghost { background: transparent; color: #334155; }
+    .headshot { width: 6rem; height: 6rem; border-radius: 9999px; object-fit: cover; border: 2px solid #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+    .chip { display:inline-flex; align-items:center; gap:.25rem; border-radius:999px; background: rgba(0,99,50,0.10); color: #0f172a; padding: .25rem .6rem; font-size: .75rem; }
+    .resident-card { transition: all 0.2s ease; }
+    .resident-card.hidden { display: none; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-900">
+  <div class="rail left-0"></div>
+  <div class="rail right-0" style="right:0"></div>
+
+  <!-- Top bar -->
+  <div class="w-full border-b bg-white/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group" title="Rush Radiology Home">
+        <div class="h-8 w-8 rounded-md" style="background:var(--rush-green)"></div>
+        <div class="leading-tight">
+          <div class="font-semibold tracking-tight group-hover:underline">Department of Radiology</div>
+          <div class="text-xs text-slate-500">Rush University Medical Center</div>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm text-slate-700">
+        <a class="hover:text-slate-900" href="index.html">Home</a>
+        <a class="hover:text-slate-900 border-b-2 border-green-500" href="residency.html">Residency & Fellowships</a>
+        <a class="hover:text-slate-900" href="body-imaging.html">Body Imaging</a>
+        <a class="hover:text-slate-900" href="faculty.html">Faculty</a>
+        <a class="hover:text-slate-900" href="index.html#careers">Careers</a>
+        <a class="btn btn-primary hover:opacity-90" href="residency.html#apply">Apply</a>
+      </nav>
+      <a class="md:hidden inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm" href="index.html">Menu</a>
+    </div>
+  </div>
+
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(0,99,50,0.1),transparent),linear-gradient(to bottom,#ffffff, #f8fafc);" aria-hidden="true"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <span class="chip">Residency Program</span>
+      <h1 class="mt-3 text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight">Residents</h1>
+      <p class="mt-4 max-w-2xl text-slate-600">
+        Our diagnostic radiology residents are the future of our field. Meet our current trainees who are gaining expertise across all imaging modalities while contributing to research and education.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a class="btn btn-primary hover:opacity-90" href="#residents">Meet residents</a>
+        <a class="btn btn-outline" href="faculty.html">Faculty</a>
+        <a class="btn btn-outline" href="fellows.html">Fellows</a>
+        <a class="btn btn-ghost" href="residency.html#apply">Apply</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="residents" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+    <div class="flex items-end justify-between mb-6">
+      <h2 class="text-xl font-semibold tracking-tight">Current Residents</h2>
+      <div class="flex items-center gap-2">
+        <svg class="h-4 w-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input id="residentsSearch" type="text" class="h-9 w-64 rounded-md border border-slate-300 px-3 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Search by name or PGY level..." />
+      </div>
+    </div>
+    <div id="residentsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Resident cards will be populated by JavaScript -->
+      <div id="residentsLoading" class="col-span-full text-center py-8">
+        <div class="text-slate-500">Loading residents...</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="card p-5">
+        <div class="font-semibold">4-Year Program</div>
+        <p class="text-sm text-slate-600 mt-1">ACGME-accredited diagnostic radiology residency with comprehensive training across all imaging modalities.</p>
+      </div>
+      <div class="card p-5">
+        <div class="font-semibold">8 Positions Per Year</div>
+        <p class="text-sm text-slate-600 mt-1">We welcome 8 new residents annually, creating a close-knit learning environment with personalized mentorship.</p>
+      </div>
+      <div class="card p-5">
+        <div class="font-semibold">Research Opportunities</div>
+        <p class="text-sm text-slate-600 mt-1">All residents participate in research projects with dedicated mentorship and presentation opportunities.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-20">
+    <div class="card p-6">
+      <h2 class="text-lg font-semibold tracking-tight">Join Our Residency Program</h2>
+      <p class="text-sm text-slate-600 mt-1">Applications for our diagnostic radiology residency are accepted through ERAS. We offer comprehensive training, research opportunities, and excellent fellowship placement rates.</p>
+      <div class="mt-3 flex flex-wrap gap-3">
+        <a class="btn btn-outline" href="residency.html#apply">Application process</a>
+        <a class="btn btn-outline" href="residency.html">Program details</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  // Embedded residents data
+  const residentsData = {
+    "program_info": {
+      "name": "Diagnostic Radiology Residency",
+      "director": "Dr. Michael Chen", 
+      "program_length": 4,
+      "positions_per_year": 8
+    },
+    "residents": [
+      {
+        "id": "john-smith-pgy4",
+        "name": "John Smith",
+        "degree": "MD",
+        "pgy_level": "PGY-4",
+        "class_year": 2025,
+        "email": "jsmith@rush.edu",
+        "phone": "(312) 942-6001",
+        "headshot": "john-smith-pgy4.jpg",
+        "medical_school": "Northwestern University Feinberg School of Medicine",
+        "hometown": "Chicago, IL",
+        "research_interests": ["AI in radiology", "chest imaging", "workflow optimization"],
+        "current_rotation": "Body Imaging",
+        "fellowship_interest": "Thoracic Imaging",
+        "order": 1,
+        "status": "active"
+      },
+      {
+        "id": "maria-garcia-pgy4", 
+        "name": "Maria Garcia",
+        "degree": "MD",
+        "pgy_level": "PGY-4",
+        "class_year": 2025,
+        "email": "mgarcia@rush.edu",
+        "phone": "(312) 942-6002",
+        "headshot": "maria-garcia-pgy4.jpg",
+        "medical_school": "University of Chicago Pritzker School of Medicine",
+        "hometown": "Los Angeles, CA",
+        "research_interests": ["Women's imaging", "breast MRI", "health disparities"],
+        "current_rotation": "Breast Imaging",
+        "fellowship_interest": "Breast Imaging",
+        "order": 2,
+        "status": "active"
+      },
+      {
+        "id": "kevin-wang-pgy3",
+        "name": "Kevin Wang",
+        "degree": "MD",
+        "pgy_level": "PGY-3",
+        "class_year": 2026,
+        "email": "kwang@rush.edu",
+        "phone": "(312) 942-6003",
+        "headshot": "kevin-wang-pgy3.jpg",
+        "medical_school": "Stanford University School of Medicine",
+        "hometown": "San Francisco, CA",
+        "research_interests": ["Neuroradiology", "stroke imaging", "perfusion studies"],
+        "current_rotation": "Neuroradiology",
+        "fellowship_interest": "Neuroradiology",
+        "order": 3,
+        "status": "active"
+      },
+      {
+        "id": "sarah-johnson-pgy3",
+        "name": "Sarah Johnson",
+        "degree": "MD",
+        "pgy_level": "PGY-3", 
+        "class_year": 2026,
+        "email": "sjohnson@rush.edu",
+        "phone": "(312) 942-6004",
+        "headshot": "sarah-johnson-pgy3.jpg",
+        "medical_school": "Harvard Medical School",
+        "hometown": "Boston, MA",
+        "research_interests": ["Musculoskeletal imaging", "sports medicine", "MRI protocols"],
+        "current_rotation": "Musculoskeletal Imaging",
+        "fellowship_interest": "Musculoskeletal Imaging",
+        "order": 4,
+        "status": "active"
+      },
+      {
+        "id": "ahmed-hassan-pgy2",
+        "name": "Ahmed Hassan",
+        "degree": "MD",
+        "pgy_level": "PGY-2",
+        "class_year": 2027,
+        "email": "ahassan@rush.edu",
+        "phone": "(312) 942-6005",
+        "headshot": "ahmed-hassan-pgy2.jpg",
+        "medical_school": "University of Michigan Medical School",
+        "hometown": "Detroit, MI",
+        "research_interests": ["Emergency radiology", "trauma imaging", "CT protocols"],
+        "current_rotation": "Emergency Radiology",
+        "fellowship_interest": "Emergency Radiology",
+        "order": 5,
+        "status": "active"
+      },
+      {
+        "id": "linda-rodriguez-pgy2",
+        "name": "Linda Rodriguez",
+        "degree": "MD",
+        "pgy_level": "PGY-2",
+        "class_year": 2027,
+        "email": "lrodriguez@rush.edu",
+        "phone": "(312) 942-6006",
+        "headshot": "linda-rodriguez-pgy2.jpg",
+        "medical_school": "University of Texas Southwestern",
+        "hometown": "Dallas, TX",
+        "research_interests": ["Pediatric imaging", "fetal MRI", "congenital anomalies"],
+        "current_rotation": "Pediatric Radiology", 
+        "fellowship_interest": "Pediatric Radiology",
+        "order": 6,
+        "status": "active"
+      }
+    ]
+  };
+
+  function renderResidentCard(resident) {
+    const researchInterests = resident.research_interests ? resident.research_interests.join(', ') : '';
+    
+    return `
+      <div class="resident-card card p-5" data-person-id="${resident.id}" data-name="${resident.name}" data-pgy="${resident.pgy_level}">
+        <div class="flex items-center gap-4">
+          <img src="./images/people/residents/${resident.headshot}" 
+               alt="Headshot of ${resident.name}, ${resident.degree}" 
+               class="headshot" 
+               onerror="this.src='./images/people/placeholder.svg'" />
+          <div>
+            <div class="font-semibold">${resident.name}, ${resident.degree}</div>
+            <div class="text-sm text-slate-500">${resident.pgy_level}</div>
+            <div class="text-xs text-slate-400">Class of ${resident.class_year}</div>
+          </div>
+        </div>
+        
+        <div class="mt-3 space-y-2">
+          ${resident.current_rotation ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Current rotation:</span> ${resident.current_rotation}
+            </p>
+          ` : ''}
+          
+          ${resident.fellowship_interest ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Fellowship interest:</span> ${resident.fellowship_interest}
+            </p>
+          ` : ''}
+          
+          ${resident.medical_school ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Medical school:</span> ${resident.medical_school}
+            </p>
+          ` : ''}
+          
+          ${researchInterests ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Research interests:</span> ${researchInterests}
+            </p>
+          ` : ''}
+          
+          ${resident.email ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Email:</span> 
+              <a href="mailto:${resident.email}" class="hover:underline text-[color:var(--rush-green)]">${resident.email}</a>
+            </p>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderResidentsGrid(residents) {
+    const container = document.getElementById('residentsGrid');
+    if (!container) {
+      console.error('Residents grid container not found');
+      return;
+    }
+
+    // Sort residents by PGY level (descending) then by name
+    const pgyOrder = { 'PGY-4': 1, 'PGY-3': 2, 'PGY-2': 3, 'PGY-1': 4 };
+    const sortedResidents = [...residents].sort((a, b) => {
+      const pgyA = pgyOrder[a.pgy_level] || 5;
+      const pgyB = pgyOrder[b.pgy_level] || 5;
+      if (pgyA !== pgyB) return pgyA - pgyB;
+      return a.name.localeCompare(b.name);
+    });
+
+    // Generate HTML for all resident cards
+    const residentsHTML = sortedResidents
+      .filter(r => r.status === 'active')
+      .map(r => renderResidentCard(r))
+      .join('');
+
+    // Insert into container
+    container.innerHTML = residentsHTML;
+  }
+
+  function setupSearch(residents) {
+    const searchInput = document.getElementById('residentsSearch');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase().trim();
+      const container = document.getElementById('residentsGrid');
+      const cards = container.querySelectorAll('[data-person-id]');
+
+      if (searchTerm === '') {
+        // Show all cards
+        cards.forEach(card => card.style.display = 'block');
+        return;
+      }
+
+      // Filter and reorder cards
+      const matches = residents.filter(person => {
+        const name = person.name.toLowerCase();
+        const pgy = person.pgy_level.toLowerCase();
+        const rotation = (person.current_rotation || '').toLowerCase();
+        const fellowship = (person.fellowship_interest || '').toLowerCase();
+        const research = person.research_interests ? person.research_interests.join(' ').toLowerCase() : '';
+        const medSchool = (person.medical_school || '').toLowerCase();
+        
+        return name.includes(searchTerm) || pgy.includes(searchTerm) || rotation.includes(searchTerm) || 
+               fellowship.includes(searchTerm) || research.includes(searchTerm) || medSchool.includes(searchTerm);
+      });
+
+      // Hide all cards first
+      cards.forEach(card => card.style.display = 'none');
+
+      // Show matched cards
+      matches.forEach(person => {
+        const card = container.querySelector(`[data-person-id="${person.id}"]`);
+        if (card) {
+          card.style.display = 'block';
+        }
+      });
+    });
+  }
+
+  // Initialize residents display
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing residents display...');
+    
+    try {
+      const residents = residentsData.residents;
+      console.log(`Loading ${residents.length} residents`);
+      
+      // Render residents grid
+      renderResidentsGrid(residents);
+      
+      // Setup search functionality
+      setupSearch(residents);
+      
+      // Hide loading indicator
+      const loadingElement = document.getElementById('residentsLoading');
+      if (loadingElement) {
+        loadingElement.style.display = 'none';
+      }
+      
+      console.log('Residents display initialized successfully');
+      
+    } catch (error) {
+      console.error('Error initializing residents display:', error);
+      document.getElementById('residentsGrid').innerHTML = `
+        <div class="col-span-full text-center py-8">
+          <div class="text-red-500">Error loading residents data: ${error.message}</div>
+        </div>
+      `;
+    }
+  });
+  </script>
+
+  <footer class="border-t bg-white/70 backdrop-blur mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div class="text-sm text-slate-600">© <span id="year"></span> Department of Radiology, Rush University Medical Center</div>
+      <div class="flex flex-wrap gap-4 text-sm">
+        <a class="hover:underline" href="#">Privacy</a>
+        <a class="hover:underline" href="#">Accessibility</a>
+        <a class="hover:underline" href="#">Nondiscrimination</a>
+        <a class="hover:underline" href="#">Sitemap</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

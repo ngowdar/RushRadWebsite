@@ -17,6 +17,11 @@
     .btn-ghost { background: transparent; color: #334155; }
     .headshot { width: 6rem; height: 6rem; border-radius: 9999px; object-fit: cover; border: 2px solid #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
     .chip { display:inline-flex; align-items:center; gap:.25rem; border-radius:999px; background: rgba(0,99,50,0.10); color: #0f172a; padding: .25rem .6rem; font-size: .75rem; }
+    .chip-button { cursor: pointer; transition: all 0.2s ease; }
+    .chip-button:hover { background: rgba(0,99,50,0.15); }
+    .chip-button.active { background: var(--rush-green); color: white; }
+    .resident-card { transition: all 0.2s ease; }
+    .resident-card.hidden { display: none; }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-900">
@@ -64,16 +69,27 @@
   </header>
 
   <section id="residents" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-    <div class="flex items-end justify-between mb-4">
-      <h2 class="text-xl font-semibold tracking-tight">Current Residents</h2>
-      <div class="hidden md:flex gap-2">
-        <span class="chip">PGY-2</span>
-        <span class="chip">PGY-3</span>
-        <span class="chip">PGY-4</span>
-        <span class="chip">PGY-5</span>
+    <div class="mb-6">
+      <div class="flex items-end justify-between mb-4">
+        <h2 class="text-xl font-semibold tracking-tight">Current Residents</h2>
+        <div class="hidden md:flex gap-2">
+          <span class="chip chip-button active" data-filter="all" id="filter-all">All</span>
+          <span class="chip chip-button" data-filter="PGY-2" id="filter-pgy2">PGY-2</span>
+          <span class="chip chip-button" data-filter="PGY-3" id="filter-pgy3">PGY-3</span>
+          <span class="chip chip-button" data-filter="PGY-4" id="filter-pgy4">PGY-4</span>
+          <span class="chip chip-button" data-filter="PGY-5" id="filter-pgy5">PGY-5</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 mb-4">
+        <svg class="h-4 w-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input id="residentsSearch" type="text" class="h-9 w-64 rounded-md border border-slate-300 px-3 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Search residents..." />
+        <span class="text-sm text-slate-500 ml-2">You can type here to filter by name, PGY level, interests, etc.</span>
       </div>
     </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div id="residentsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
       <div class="card p-5">
         <div class="flex items-center gap-4">
@@ -224,9 +240,107 @@
   </section>
 
   <script>
-  document.addEventListener('click', (e) => { const t = e.target.closest('[data-toggle]'); if (!t) return;
-    const id = t.getAttribute('data-toggle'); const el = document.getElementById(id); if (!el) return;
-    el.classList.toggle('hidden'); t.textContent = el.classList.contains('hidden') ? 'View bio' : 'Hide bio'; });
+  // Bio toggle functionality
+  document.addEventListener('click', (e) => { 
+    const t = e.target.closest('[data-toggle]'); 
+    if (!t) return;
+    const id = t.getAttribute('data-toggle'); 
+    const el = document.getElementById(id); 
+    if (!el) return;
+    el.classList.toggle('hidden'); 
+    t.textContent = el.classList.contains('hidden') ? 'View bio' : 'Hide bio'; 
+  });
+
+  // Filter and search functionality
+  let currentFilter = 'all';
+  let searchTimeout = null;
+
+  function filterResidents() {
+    const cards = document.querySelectorAll('.resident-card');
+    const searchTerm = document.getElementById('residentsSearch').value.toLowerCase().trim();
+    
+    cards.forEach(card => {
+      const pgyLevel = card.dataset.pgy;
+      const name = card.dataset.name.toLowerCase();
+      const interests = card.dataset.interests.toLowerCase();
+      const school = card.dataset.school.toLowerCase();
+      
+      // Check filter match
+      const filterMatch = currentFilter === 'all' || pgyLevel === currentFilter;
+      
+      // Check search match
+      const searchMatch = searchTerm === '' || 
+                         name.includes(searchTerm) || 
+                         interests.includes(searchTerm) || 
+                         school.includes(searchTerm) ||
+                         pgyLevel.toLowerCase().includes(searchTerm);
+      
+      // Show card only if both filter and search match
+      if (filterMatch && searchMatch) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  // PGY filter buttons
+  document.addEventListener('click', (e) => {
+    const filterButton = e.target.closest('[data-filter]');
+    if (!filterButton) return;
+    
+    // Update active button
+    document.querySelectorAll('.chip-button').forEach(btn => btn.classList.remove('active'));
+    filterButton.classList.add('active');
+    
+    // Update current filter
+    currentFilter = filterButton.dataset.filter;
+    
+    // Apply filter
+    filterResidents();
+  });
+
+  // Search input
+  const searchInput = document.getElementById('residentsSearch');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        filterResidents();
+      }, 300);
+    });
+  }
+
+  // Initialize - set up data attributes and set 'All' as active by default
+  document.addEventListener('DOMContentLoaded', function() {
+    const filterAll = document.getElementById('filter-all');
+    if (filterAll) {
+      filterAll.classList.add('active');
+    }
+    
+    // Add data attributes to resident cards based on their content
+    const cards = document.querySelectorAll('#residentsGrid .card');
+    const residentData = [
+      { pgy: 'PGY-2', name: 'Aarya Kulkarni', interests: 'MSK imaging, AI in radiology, quality improvement', school: 'University of Michigan Medical School' },
+      { pgy: 'PGY-2', name: 'Noah Santiago', interests: 'Emergency radiology, point-of-care ultrasound', school: 'Ohio State University College of Medicine' },
+      { pgy: 'PGY-3', name: 'Priya Menon', interests: 'Breast imaging, resident education', school: 'Northwestern University Feinberg' },
+      { pgy: 'PGY-3', name: 'Ethan Park', interests: 'Neuroradiology, functional MRI research', school: 'University of Illinois College of Medicine' },
+      { pgy: 'PGY-4', name: 'Sofia Ramirez', interests: 'IR, device innovation, clinical trials', school: 'Rush Medical College' },
+      { pgy: 'PGY-4', name: 'Michael Osei', interests: 'Thoracic imaging, interstitial lung disease', school: 'University of Chicago Pritzker' },
+      { pgy: 'PGY-5', name: 'Grace Lin', interests: 'Pediatric radiology, global health', school: 'Washington University in St. Louis' },
+      { pgy: 'PGY-5', name: 'Daniel Farouk', interests: 'Abdominal imaging, mentorship', school: 'Mayo Clinic Alix School of Medicine' }
+    ];
+    
+    cards.forEach((card, index) => {
+      if (residentData[index]) {
+        card.classList.add('resident-card');
+        card.dataset.pgy = residentData[index].pgy;
+        card.dataset.name = residentData[index].name;
+        card.dataset.interests = residentData[index].interests;
+        card.dataset.school = residentData[index].school;
+      }
+    });
+  });
   </script>
 
   <footer class="border-t bg-white/70 backdrop-blur mt-12">

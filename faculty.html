@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Faculty — Rush Radiology</title>
+  <meta name="description" content="Meet our distinguished faculty at Rush University Medical Center Department of Radiology" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --rush-green: #006332; }
+    .rail { position: fixed; top: 0; bottom: 0; width: clamp(24px, 7vw, 120px); background: var(--rush-green); z-index: 10; pointer-events: none; }
+    @media (max-width: 1023px) { .rail { display: none; } }
+    .card { border-radius: 1rem; background: #fff; border: 1px solid rgba(15,23,42,0.08); box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .btn { border-radius: 1rem; padding: 0.6rem 1rem; font-size: 0.875rem; display: inline-flex; align-items: center; gap: .5rem; }
+    .btn-primary { background: var(--rush-green); color: #fff; }
+    .btn-outline { border: 1px solid #cbd5e1; background: #fff; color: #0f172a; }
+    .btn-ghost { background: transparent; color: #334155; }
+    .headshot { width: 6rem; height: 6rem; border-radius: 9999px; object-fit: cover; border: 2px solid #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+    .chip { display:inline-flex; align-items:center; gap:.25rem; border-radius:999px; background: rgba(0,99,50,0.10); color: #0f172a; padding: .25rem .6rem; font-size: .75rem; }
+    .faculty-card { transition: all 0.2s ease; }
+    .faculty-card.hidden { display: none; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-900">
+  <div class="rail left-0"></div>
+  <div class="rail right-0" style="right:0"></div>
+
+  <!-- Top bar -->
+  <div class="w-full border-b bg-white/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group" title="Rush Radiology Home">
+        <div class="h-8 w-8 rounded-md" style="background:var(--rush-green)"></div>
+        <div class="leading-tight">
+          <div class="font-semibold tracking-tight group-hover:underline">Department of Radiology</div>
+          <div class="text-xs text-slate-500">Rush University Medical Center</div>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm text-slate-700">
+        <a class="hover:text-slate-900" href="index.html">Home</a>
+        <a class="hover:text-slate-900" href="residency.html">Residency & Fellowships</a>
+        <a class="hover:text-slate-900" href="body-imaging.html">Body Imaging</a>
+        <a class="hover:text-slate-900 border-b-2 border-green-500" href="faculty.html">Faculty</a>
+        <a class="hover:text-slate-900" href="index.html#careers">Careers</a>
+        <a class="btn btn-primary hover:opacity-90" href="residency.html#apply">Apply</a>
+      </nav>
+      <a class="md:hidden inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm" href="index.html">Menu</a>
+    </div>
+  </div>
+
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(0,99,50,0.1),transparent),linear-gradient(to bottom,#ffffff, #f8fafc);" aria-hidden="true"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <span class="chip">Academic Faculty</span>
+      <h1 class="mt-3 text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight">Faculty</h1>
+      <p class="mt-4 max-w-2xl text-slate-600">
+        Our distinguished faculty members are leaders in diagnostic radiology, advancing patient care through clinical excellence, innovative research, and dedicated teaching.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a class="btn btn-primary hover:opacity-90" href="#faculty">Browse faculty</a>
+        <a class="btn btn-outline" href="residents.html">Meet residents</a>
+        <a class="btn btn-outline" href="fellows.html">Meet fellows</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="faculty" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+    <div class="flex items-end justify-between mb-6">
+      <h2 class="text-xl font-semibold tracking-tight">All Faculty</h2>
+      <div class="flex items-center gap-2">
+        <svg class="h-4 w-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input id="facultySearch" type="text" class="h-9 w-64 rounded-md border border-slate-300 px-3 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Search faculty by name or specialty..." />
+      </div>
+    </div>
+    <div id="facultyGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Faculty cards will be populated by JavaScript -->
+      <div id="facultyLoading" class="col-span-full text-center py-8">
+        <div class="text-slate-500">Loading faculty...</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-20">
+    <div class="card p-6">
+      <h2 class="text-lg font-semibold tracking-tight">Join Our Faculty</h2>
+      <p class="text-sm text-slate-600 mt-1">We are always seeking exceptional radiologists to join our academic team. Our faculty enjoy collaborative research opportunities, cutting-edge technology, and the chance to shape the next generation of radiologists.</p>
+      <div class="mt-3 flex flex-wrap gap-3">
+        <a class="btn btn-outline" href="index.html#careers">Open positions</a>
+        <a class="btn btn-outline" href="#">Faculty benefits</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  // Embedded faculty data from all divisions
+  const facultyData = {
+    "divisions": {
+      "body-imaging": {
+        "faculty": [
+          {
+            "id": "leah-bennett",
+            "name": "Leah Bennett",
+            "degree": "MD",
+            "title": "Section Chief, Body Imaging",
+            "academic_rank": "Professor",
+            "division": "body-imaging",
+            "email": "lbennett@rush.edu",
+            "phone": "(312) 942-5741",
+            "clinical_focus": ["Abdominal MRI", "oncologic imaging", "MR elastography"],
+            "headshot": "leah-bennett.jpg",
+            "order": 1,
+            "status": "active"
+          },
+          {
+            "id": "rahul-desai",
+            "name": "Rahul Desai", 
+            "degree": "MD",
+            "title": "Associate Professor",
+            "academic_rank": "Associate Professor",
+            "division": "body-imaging",
+            "email": "rdesai@rush.edu",
+            "phone": "(312) 942-5742",
+            "clinical_focus": ["Liver imaging", "HCC surveillance", "image-guided ablation"],
+            "headshot": "rahul-desai.jpg",
+            "order": 2,
+            "status": "active"
+          },
+          {
+            "id": "emily-nguyen",
+            "name": "Emily Nguyen",
+            "degree": "MD",
+            "title": "Assistant Professor", 
+            "academic_rank": "Assistant Professor",
+            "division": "body-imaging",
+            "email": "anguyen@rush.edu",
+            "phone": "(312) 942-5743",
+            "clinical_focus": ["MR enterography", "pelvic floor imaging", "resident education"],
+            "headshot": "emily-nguyen.jpg",
+            "order": 3,
+            "status": "active"
+          }
+        ]
+      },
+      "neuroradiology": {
+        "faculty": [
+          {
+            "id": "patricia-williams",
+            "name": "Patricia Williams",
+            "degree": "MD",
+            "title": "Section Chief, Neuroradiology",
+            "academic_rank": "Professor",
+            "division": "neuroradiology", 
+            "email": "pwilliams@rush.edu",
+            "phone": "(312) 942-5800",
+            "clinical_focus": ["Brain imaging", "spine imaging", "stroke protocols"],
+            "headshot": "patricia-williams.jpg",
+            "order": 1,
+            "status": "active"
+          },
+          {
+            "id": "daniel-chen",
+            "name": "Daniel Chen",
+            "degree": "MD",
+            "title": "Associate Professor",
+            "academic_rank": "Associate Professor",
+            "division": "neuroradiology",
+            "email": "dchen@rush.edu", 
+            "phone": "(312) 942-5801",
+            "clinical_focus": ["Pediatric neuroradiology", "functional imaging", "research"],
+            "headshot": "daniel-chen.jpg",
+            "order": 2,
+            "status": "active"
+          }
+        ]
+      },
+      "musculoskeletal": {
+        "faculty": [
+          {
+            "id": "robert-kim-msk",
+            "name": "Robert Kim",
+            "degree": "MD",
+            "title": "Section Chief, Musculoskeletal Imaging",
+            "academic_rank": "Associate Professor",
+            "division": "musculoskeletal",
+            "email": "rkim@rush.edu",
+            "phone": "(312) 942-5900",
+            "clinical_focus": ["Sports injuries", "joint imaging", "arthroscopy correlation"],
+            "headshot": "robert-kim.jpg",
+            "order": 1,
+            "status": "active"
+          }
+        ]
+      }
+    }
+  };
+
+  function renderFacultyCard(faculty) {
+    const clinicalFocus = faculty.clinical_focus ? faculty.clinical_focus.join(', ') : '';
+    const divisionName = faculty.division ? faculty.division.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()) : '';
+    
+    return `
+      <div class="faculty-card card p-5" data-person-id="${faculty.id}" data-name="${faculty.name}" data-title="${faculty.title}" data-division="${faculty.division || ''}">
+        <div class="flex items-center gap-4">
+          <img src="./images/people/faculty/${faculty.headshot}" 
+               alt="Headshot of ${faculty.name}, ${faculty.degree}" 
+               class="headshot" 
+               onerror="this.src='./images/people/placeholder.svg'" />
+          <div>
+            <div class="font-semibold">${faculty.name}, ${faculty.degree}</div>
+            <div class="text-sm text-slate-500">${faculty.title}</div>
+            ${divisionName ? `<div class="text-xs text-slate-400">${divisionName}</div>` : ''}
+          </div>
+        </div>
+        
+        <div class="mt-3 space-y-2">
+          ${clinicalFocus ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Clinical focus:</span> ${clinicalFocus}
+            </p>
+          ` : ''}
+          
+          ${faculty.phone ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Phone:</span> 
+              <a href="tel:${faculty.phone}" class="hover:underline">${faculty.phone}</a>
+            </p>
+          ` : ''}
+          
+          ${faculty.email ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Email:</span> 
+              <a href="mailto:${faculty.email}" class="hover:underline text-[color:var(--rush-green)]">${faculty.email}</a>
+            </p>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  function getAllFaculty() {
+    const allFaculty = [];
+    Object.values(facultyData.divisions).forEach(division => {
+      if (division.faculty) {
+        allFaculty.push(...division.faculty);
+      }
+    });
+    return allFaculty;
+  }
+
+  function renderFacultyGrid(faculty) {
+    const container = document.getElementById('facultyGrid');
+    if (!container) {
+      console.error('Faculty grid container not found');
+      return;
+    }
+
+    // Sort faculty by academic rank then by name
+    const rankOrder = { 'Professor': 1, 'Associate Professor': 2, 'Assistant Professor': 3, 'Clinical Instructor': 4 };
+    const sortedFaculty = [...faculty].sort((a, b) => {
+      const rankA = rankOrder[a.academic_rank] || 5;
+      const rankB = rankOrder[b.academic_rank] || 5;
+      if (rankA !== rankB) return rankA - rankB;
+      return a.name.localeCompare(b.name);
+    });
+
+    // Generate HTML for all faculty cards
+    const facultyHTML = sortedFaculty
+      .filter(f => f.status === 'active')
+      .map(f => renderFacultyCard(f))
+      .join('');
+
+    // Insert into container
+    container.innerHTML = facultyHTML;
+  }
+
+  function setupSearch(faculty) {
+    const searchInput = document.getElementById('facultySearch');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase().trim();
+      const container = document.getElementById('facultyGrid');
+      const cards = container.querySelectorAll('[data-person-id]');
+
+      if (searchTerm === '') {
+        // Show all cards
+        cards.forEach(card => card.style.display = 'block');
+        return;
+      }
+
+      // Filter and reorder cards
+      const matches = faculty.filter(person => {
+        const name = person.name.toLowerCase();
+        const title = (person.title || '').toLowerCase();
+        const focus = person.clinical_focus ? person.clinical_focus.join(' ').toLowerCase() : '';
+        const division = (person.division || '').toLowerCase();
+        const rank = (person.academic_rank || '').toLowerCase();
+        
+        return name.includes(searchTerm) || title.includes(searchTerm) || focus.includes(searchTerm) || 
+               division.includes(searchTerm) || rank.includes(searchTerm);
+      });
+
+      // Hide all cards first
+      cards.forEach(card => card.style.display = 'none');
+
+      // Show matched cards
+      matches.forEach(person => {
+        const card = container.querySelector(`[data-person-id="${person.id}"]`);
+        if (card) {
+          card.style.display = 'block';
+        }
+      });
+    });
+  }
+
+  // Initialize faculty display
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing faculty display...');
+    
+    try {
+      const allFaculty = getAllFaculty();
+      console.log(`Loading ${allFaculty.length} faculty members from all divisions`);
+      
+      // Render faculty grid
+      renderFacultyGrid(allFaculty);
+      
+      // Setup search functionality
+      setupSearch(allFaculty);
+      
+      // Hide loading indicator
+      const loadingElement = document.getElementById('facultyLoading');
+      if (loadingElement) {
+        loadingElement.style.display = 'none';
+      }
+      
+      console.log('Faculty display initialized successfully');
+      
+    } catch (error) {
+      console.error('Error initializing faculty display:', error);
+      document.getElementById('facultyGrid').innerHTML = `
+        <div class="col-span-full text-center py-8">
+          <div class="text-red-500">Error loading faculty data: ${error.message}</div>
+        </div>
+      `;
+    }
+  });
+  </script>
+
+  <footer class="border-t bg-white/70 backdrop-blur mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div class="text-sm text-slate-600">© <span id="year"></span> Department of Radiology, Rush University Medical Center</div>
+      <div class="flex flex-wrap gap-4 text-sm">
+        <a class="hover:underline" href="#">Privacy</a>
+        <a class="hover:underline" href="#">Accessibility</a>
+        <a class="hover:underline" href="#">Nondiscrimination</a>
+        <a class="hover:underline" href="#">Sitemap</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

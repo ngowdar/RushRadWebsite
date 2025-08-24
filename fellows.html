@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fellows — Rush Radiology</title>
+  <meta name="description" content="Meet our subspecialty fellows at Rush University Medical Center Department of Radiology" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --rush-green: #006332; }
+    .rail { position: fixed; top: 0; bottom: 0; width: clamp(24px, 7vw, 120px); background: var(--rush-green); z-index: 10; pointer-events: none; }
+    @media (max-width: 1023px) { .rail { display: none; } }
+    .card { border-radius: 1rem; background: #fff; border: 1px solid rgba(15,23,42,0.08); box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .btn { border-radius: 1rem; padding: 0.6rem 1rem; font-size: 0.875rem; display: inline-flex; align-items: center; gap: .5rem; }
+    .btn-primary { background: var(--rush-green); color: #fff; }
+    .btn-outline { border: 1px solid #cbd5e1; background: #fff; color: #0f172a; }
+    .btn-ghost { background: transparent; color: #334155; }
+    .headshot { width: 6rem; height: 6rem; border-radius: 9999px; object-fit: cover; border: 2px solid #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+    .chip { display:inline-flex; align-items:center; gap:.25rem; border-radius:999px; background: rgba(0,99,50,0.10); color: #0f172a; padding: .25rem .6rem; font-size: .75rem; }
+    .fellow-card { transition: all 0.2s ease; }
+    .fellow-card.hidden { display: none; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-900">
+  <div class="rail left-0"></div>
+  <div class="rail right-0" style="right:0"></div>
+
+  <!-- Top bar -->
+  <div class="w-full border-b bg-white/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group" title="Rush Radiology Home">
+        <div class="h-8 w-8 rounded-md" style="background:var(--rush-green)"></div>
+        <div class="leading-tight">
+          <div class="font-semibold tracking-tight group-hover:underline">Department of Radiology</div>
+          <div class="text-xs text-slate-500">Rush University Medical Center</div>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm text-slate-700">
+        <a class="hover:text-slate-900" href="index.html">Home</a>
+        <a class="hover:text-slate-900 border-b-2 border-green-500" href="residency.html">Residency & Fellowships</a>
+        <a class="hover:text-slate-900" href="body-imaging.html">Body Imaging</a>
+        <a class="hover:text-slate-900" href="faculty.html">Faculty</a>
+        <a class="hover:text-slate-900" href="index.html#careers">Careers</a>
+        <a class="btn btn-primary hover:opacity-90" href="residency.html#apply">Apply</a>
+      </nav>
+      <a class="md:hidden inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm" href="index.html">Menu</a>
+    </div>
+  </div>
+
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(0,99,50,0.1),transparent),linear-gradient(to bottom,#ffffff, #f8fafc);" aria-hidden="true"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <span class="chip">Fellowship Programs</span>
+      <h1 class="mt-3 text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight">Fellows</h1>
+      <p class="mt-4 max-w-2xl text-slate-600">
+        Our fellowship programs provide advanced subspecialty training in key areas of diagnostic radiology. Meet our current fellows who are preparing for leadership roles in academic and clinical practice.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a class="btn btn-primary hover:opacity-90" href="#fellows">Meet fellows</a>
+        <a class="btn btn-outline" href="faculty.html">Faculty</a>
+        <a class="btn btn-outline" href="residents.html">Residents</a>
+        <a class="btn btn-ghost" href="residency.html#fellowships">Fellowship info</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="fellows" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+    <div class="flex items-end justify-between mb-6">
+      <h2 class="text-xl font-semibold tracking-tight">Current Fellows</h2>
+      <div class="flex items-center gap-2">
+        <svg class="h-4 w-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input id="fellowsSearch" type="text" class="h-9 w-64 rounded-md border border-slate-300 px-3 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Search by name or fellowship..." />
+      </div>
+    </div>
+    <div id="fellowsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Fellow cards will be populated by JavaScript -->
+      <div id="fellowsLoading" class="col-span-full text-center py-8">
+        <div class="text-slate-500">Loading fellows...</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+    <h2 class="text-xl font-semibold tracking-tight mb-3">Fellowship Programs</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="card p-5">
+        <div class="font-semibold">Body Imaging</div>
+        <div class="text-xs text-slate-400 mb-2">2 positions • 1 year</div>
+        <p class="text-sm text-slate-600">Advanced training in CT, MRI, and ultrasound of the abdomen and pelvis with subspecialty rotations.</p>
+      </div>
+      <div class="card p-5">
+        <div class="font-semibold">Neuroradiology</div>
+        <div class="text-xs text-slate-400 mb-2">2 positions • 1 year</div>
+        <p class="text-sm text-slate-600">Comprehensive training in brain, spine, and head/neck imaging including advanced techniques.</p>
+      </div>
+      <div class="card p-5">
+        <div class="font-semibold">Musculoskeletal Imaging</div>
+        <div class="text-xs text-slate-400 mb-2">1 position • 1 year</div>
+        <p class="text-sm text-slate-600">Expert training in MSK imaging with emphasis on sports medicine and arthroscopy correlation.</p>
+      </div>
+      <div class="card p-5">
+        <div class="font-semibold">Breast Imaging</div>
+        <div class="text-xs text-slate-400 mb-2">1 position • 1 year</div>
+        <p class="text-sm text-slate-600">Comprehensive breast imaging training including mammography, MRI, and image-guided procedures.</p>
+      </div>
+      <div class="card p-5">
+        <div class="font-semibold">Interventional Radiology</div>
+        <div class="text-xs text-slate-400 mb-2">2 positions • 1 year</div>
+        <p class="text-sm text-slate-600">Advanced minimally invasive procedures with focus on vascular and non-vascular interventions.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-20">
+    <div class="card p-6">
+      <h2 class="text-lg font-semibold tracking-tight">Fellowship Applications</h2>
+      <p class="text-sm text-slate-600 mt-1">Our fellowship programs attract top graduates from leading radiology residency programs. Applications are typically due in the fall for positions beginning the following July.</p>
+      <div class="mt-3 flex flex-wrap gap-3">
+        <a class="btn btn-outline" href="residency.html#fellowships">Application details</a>
+        <a class="btn btn-outline" href="#">Program requirements</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  // Embedded fellows data
+  const fellowsData = {
+    "fellowship_programs": {
+      "body-imaging": { "name": "Body Imaging Fellowship", "director": "Dr. Leah Bennett", "positions": 2 },
+      "neuroradiology": { "name": "Neuroradiology Fellowship", "director": "Dr. Patricia Williams", "positions": 2 },
+      "musculoskeletal": { "name": "Musculoskeletal Imaging Fellowship", "director": "Dr. Robert Kim", "positions": 1 },
+      "breast-imaging": { "name": "Breast Imaging Fellowship", "director": "Dr. Amanda Foster", "positions": 1 },
+      "interventional": { "name": "Interventional Radiology Fellowship", "director": "Dr. Carlos Martinez", "positions": 2 }
+    },
+    "fellows": [
+      {
+        "id": "alex-thompson-body",
+        "name": "Alex Thompson",
+        "degree": "MD",
+        "fellowship_type": "body-imaging",
+        "fellowship_year": 1,
+        "academic_year": "2024-2025",
+        "email": "athompson@rush.edu",
+        "phone": "(312) 942-7001",
+        "headshot": "alex-thompson-body.jpg",
+        "residency": "University of Michigan",
+        "medical_school": "Wayne State University School of Medicine",
+        "hometown": "Detroit, MI",
+        "research_focus": ["Liver imaging", "perfusion studies", "hepatobiliary MRI"],
+        "career_goals": "Academic body imaging position",
+        "order": 1,
+        "status": "active"
+      },
+      {
+        "id": "priya-patel-body",
+        "name": "Priya Patel",
+        "degree": "MD",
+        "fellowship_type": "body-imaging",
+        "fellowship_year": 1,
+        "academic_year": "2024-2025",
+        "email": "ppatel@rush.edu",
+        "phone": "(312) 942-7002",
+        "headshot": "priya-patel-body.jpg",
+        "residency": "Mayo Clinic",
+        "medical_school": "Northwestern University Feinberg School of Medicine",
+        "hometown": "Chicago, IL",
+        "research_focus": ["Pancreatic imaging", "advanced MR techniques", "imaging biomarkers"],
+        "career_goals": "Clinical practice with research focus",
+        "order": 2,
+        "status": "active"
+      },
+      {
+        "id": "michael-chang-neuro",
+        "name": "Michael Chang",
+        "degree": "MD",
+        "fellowship_type": "neuroradiology",
+        "fellowship_year": 1,
+        "academic_year": "2024-2025",
+        "email": "mchang@rush.edu",
+        "phone": "(312) 942-7003",
+        "headshot": "michael-chang-neuro.jpg",
+        "residency": "Johns Hopkins Hospital",
+        "medical_school": "Harvard Medical School",
+        "hometown": "Boston, MA",
+        "research_focus": ["Stroke imaging", "perfusion MRI", "artificial intelligence"],
+        "career_goals": "Academic neuroradiology with AI focus",
+        "order": 3,
+        "status": "active"
+      },
+      {
+        "id": "jessica-kim-neuro",
+        "name": "Jessica Kim",
+        "degree": "MD",
+        "fellowship_type": "neuroradiology",
+        "fellowship_year": 1,
+        "academic_year": "2024-2025",
+        "email": "jkim@rush.edu",
+        "phone": "(312) 942-7004",
+        "headshot": "jessica-kim-neuro.jpg",
+        "residency": "Stanford University",
+        "medical_school": "University of California San Francisco",
+        "hometown": "Los Angeles, CA",
+        "research_focus": ["Pediatric neuroradiology", "fetal MRI", "developmental disorders"],
+        "career_goals": "Pediatric neuroradiology practice",
+        "order": 4,
+        "status": "active"
+      },
+      {
+        "id": "david-martinez-msk",
+        "name": "David Martinez",
+        "degree": "MD",
+        "fellowship_type": "musculoskeletal",
+        "fellowship_year": 1,
+        "academic_year": "2024-2025",
+        "email": "dmartinez@rush.edu",
+        "phone": "(312) 942-7005",
+        "headshot": "david-martinez-msk.jpg",
+        "residency": "Hospital for Special Surgery",
+        "medical_school": "Columbia University",
+        "hometown": "New York, NY",
+        "research_focus": ["Sports imaging", "cartilage assessment", "MRI protocols"],
+        "career_goals": "Sports medicine imaging specialist",
+        "order": 5,
+        "status": "active"
+      },
+      {
+        "id": "amanda-lee-breast",
+        "name": "Amanda Lee",
+        "degree": "MD",
+        "fellowship_type": "breast-imaging",
+        "fellowship_year": 1,
+        "academic_year": "2024-2025",
+        "email": "alee@rush.edu",
+        "phone": "(312) 942-7006",
+        "headshot": "amanda-lee-breast.jpg",
+        "residency": "University of Pennsylvania",
+        "medical_school": "Thomas Jefferson University",
+        "hometown": "Philadelphia, PA",
+        "research_focus": ["Breast MRI", "screening protocols", "health disparities"],
+        "career_goals": "Community breast imaging practice",
+        "order": 6,
+        "status": "active"
+      }
+    ]
+  };
+
+  function getFellowshipDisplayName(fellowshipType) {
+    const fellowshipNames = {
+      'body-imaging': 'Body Imaging',
+      'neuroradiology': 'Neuroradiology', 
+      'musculoskeletal': 'Musculoskeletal Imaging',
+      'breast-imaging': 'Breast Imaging',
+      'interventional': 'Interventional Radiology'
+    };
+    return fellowshipNames[fellowshipType] || fellowshipType;
+  }
+
+  function renderFellowCard(fellow) {
+    const researchFocus = fellow.research_focus ? fellow.research_focus.join(', ') : '';
+    const fellowshipName = getFellowshipDisplayName(fellow.fellowship_type);
+    
+    return `
+      <div class="fellow-card card p-5" data-person-id="${fellow.id}" data-name="${fellow.name}" data-fellowship="${fellow.fellowship_type}">
+        <div class="flex items-center gap-4">
+          <img src="./images/people/fellows/${fellow.headshot}" 
+               alt="Headshot of ${fellow.name}, ${fellow.degree}" 
+               class="headshot" 
+               onerror="this.src='./images/people/placeholder.svg'" />
+          <div>
+            <div class="font-semibold">${fellow.name}, ${fellow.degree}</div>
+            <div class="text-sm text-slate-500">${fellowshipName} Fellow</div>
+            <div class="text-xs text-slate-400">Year ${fellow.fellowship_year}</div>
+          </div>
+        </div>
+        
+        <div class="mt-3 space-y-2">
+          ${fellow.residency ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Residency:</span> ${fellow.residency}
+            </p>
+          ` : ''}
+          
+          ${fellow.career_goals ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Career goals:</span> ${fellow.career_goals}
+            </p>
+          ` : ''}
+          
+          ${researchFocus ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Research focus:</span> ${researchFocus}
+            </p>
+          ` : ''}
+          
+          ${fellow.medical_school ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Medical school:</span> ${fellow.medical_school}
+            </p>
+          ` : ''}
+          
+          ${fellow.email ? `
+            <p class="text-sm text-slate-600">
+              <span class="text-slate-500">Email:</span> 
+              <a href="mailto:${fellow.email}" class="hover:underline text-[color:var(--rush-green)]">${fellow.email}</a>
+            </p>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderFellowsGrid(fellows) {
+    const container = document.getElementById('fellowsGrid');
+    if (!container) {
+      console.error('Fellows grid container not found');
+      return;
+    }
+
+    // Sort fellows by fellowship type then by name
+    const fellowshipOrder = { 'body-imaging': 1, 'neuroradiology': 2, 'musculoskeletal': 3, 'breast-imaging': 4, 'interventional': 5 };
+    const sortedFellows = [...fellows].sort((a, b) => {
+      const typeA = fellowshipOrder[a.fellowship_type] || 6;
+      const typeB = fellowshipOrder[b.fellowship_type] || 6;
+      if (typeA !== typeB) return typeA - typeB;
+      return a.name.localeCompare(b.name);
+    });
+
+    // Generate HTML for all fellow cards
+    const fellowsHTML = sortedFellows
+      .filter(f => f.status === 'active')
+      .map(f => renderFellowCard(f))
+      .join('');
+
+    // Insert into container
+    container.innerHTML = fellowsHTML;
+  }
+
+  function setupSearch(fellows) {
+    const searchInput = document.getElementById('fellowsSearch');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase().trim();
+      const container = document.getElementById('fellowsGrid');
+      const cards = container.querySelectorAll('[data-person-id]');
+
+      if (searchTerm === '') {
+        // Show all cards
+        cards.forEach(card => card.style.display = 'block');
+        return;
+      }
+
+      // Filter and reorder cards
+      const matches = fellows.filter(person => {
+        const name = person.name.toLowerCase();
+        const fellowship = person.fellowship_type.toLowerCase();
+        const fellowshipName = getFellowshipDisplayName(person.fellowship_type).toLowerCase();
+        const research = person.research_focus ? person.research_focus.join(' ').toLowerCase() : '';
+        const residency = (person.residency || '').toLowerCase();
+        const medSchool = (person.medical_school || '').toLowerCase();
+        const goals = (person.career_goals || '').toLowerCase();
+        
+        return name.includes(searchTerm) || fellowship.includes(searchTerm) || fellowshipName.includes(searchTerm) || 
+               research.includes(searchTerm) || residency.includes(searchTerm) || medSchool.includes(searchTerm) || 
+               goals.includes(searchTerm);
+      });
+
+      // Hide all cards first
+      cards.forEach(card => card.style.display = 'none');
+
+      // Show matched cards
+      matches.forEach(person => {
+        const card = container.querySelector(`[data-person-id="${person.id}"]`);
+        if (card) {
+          card.style.display = 'block';
+        }
+      });
+    });
+  }
+
+  // Initialize fellows display
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing fellows display...');
+    
+    try {
+      const fellows = fellowsData.fellows;
+      console.log(`Loading ${fellows.length} fellows`);
+      
+      // Render fellows grid
+      renderFellowsGrid(fellows);
+      
+      // Setup search functionality
+      setupSearch(fellows);
+      
+      // Hide loading indicator
+      const loadingElement = document.getElementById('fellowsLoading');
+      if (loadingElement) {
+        loadingElement.style.display = 'none';
+      }
+      
+      console.log('Fellows display initialized successfully');
+      
+    } catch (error) {
+      console.error('Error initializing fellows display:', error);
+      document.getElementById('fellowsGrid').innerHTML = `
+        <div class="col-span-full text-center py-8">
+          <div class="text-red-500">Error loading fellows data: ${error.message}</div>
+        </div>
+      `;
+    }
+  });
+  </script>
+
+  <footer class="border-t bg-white/70 backdrop-blur mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div class="text-sm text-slate-600">© <span id="year"></span> Department of Radiology, Rush University Medical Center</div>
+      <div class="flex flex-wrap gap-4 text-sm">
+        <a class="hover:underline" href="#">Privacy</a>
+        <a class="hover:underline" href="#">Accessibility</a>
+        <a class="hover:underline" href="#">Nondiscrimination</a>
+        <a class="hover:underline" href="#">Sitemap</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
